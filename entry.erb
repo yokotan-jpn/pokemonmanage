@@ -1,0 +1,52 @@
+ <%#coding:utf-8 %>
+
+<% require 'rubygems' %>
+<% require 'dbi' %>
+<% dbh = DBI.connect('DBI:SQLite3:box_pokemon.db') %> 
+<% sth = dbh.execute("select * from pokemon_S") %>
+
+    <html lang="en">
+        <head>
+            <meta http-equiv="Content-type" content="text/html" charset="utf-8"/>
+            <title>entry</title>
+            <!-- 対応するCSSファイルの指定 -->
+            <link rel="stylesheet" type="text/css" href="default.css">
+            <!-- <script type="text/javascript" src="tokusei.js"></script> -->
+        </head> 
+
+        <body>
+            <h1>ポケモン管理</h1> <!--題-->
+            <h2>登録メニュー</h2>
+            <p>ポケモンの情報を入力ください|<a href="entry.erb">ポケモンの登録</a>|<a href="serch.erb">ポケモンの検索</a>|<a href="entrance.html">メニューに戻る</a>|</p><!--文-->
+            <hr><!-- 横棒 -->
+            <!-- entryというのアドレスではないアドレスならentry.erbになるよってここではactionの名前という役割 -->
+            <form method="post" action="next">
+
+            <!-- inputのtypeは入力型のことでnameは入力されたものについている変数名これを後で使う -->
+                <table>
+                    <tr><th>項目</th><th>入力フォーム</th></tr>        
+                    <tr><td>ID</td><td><input type="number" name="id" min="0" required></td></tr>
+                    <tr><td>ニックネーム</td><td><input type="text" name="name" required></td></tr>
+                    <!--表示されたpokemonから名前を選択するとそのポケモンのIDが登録される-->
+                    <!--value送信データ,name送信データの名前-->
+
+                    <tr><td>ポケモン名</td>
+                        <td>
+                            <select name="pokemon_id" required>
+                            <% sth.each do |row| %>
+
+                            <option value=<%="#{row[0]}"%>><%= "#{row[3]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                    </tr>
+                </table>   
+                            <!--ここまでok-->          
+                <p><input type="submit" value="次へ"></p>
+            </form>
+            <hr><!-- 横棒 -->
+        </body>
+    </html>
+<% sth.finish%>
+<% dbh.disconnect %>

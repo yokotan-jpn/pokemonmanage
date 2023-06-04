@@ -1,0 +1,168 @@
+<%#coding:utf-8 %>
+
+<% require 'rubygems' %>
+<% require 'dbi' %>
+<% dbh = DBI.connect('DBI:SQLite3:box_pokemon.db') %> 
+<% sth = dbh.execute("select * from pokemon_S where id='#{p_id}'") %>
+<% wz  = dbh.execute("select * from waza") %>
+<% wz_2  = dbh.execute("select * from waza") %>
+<% wz_3  = dbh.execute("select * from waza") %>
+<% wz_4  = dbh.execute("select * from waza") %>
+<% itm = dbh.execute("select * from item") %>
+<% sik = dbh.execute("select * from seikaku") %>
+    <html lang="en">
+        <head>
+            <meta http-equiv="Content-type" content="text/html" charset="utf-8"/>
+            <title>entry</title>
+            <!-- 対応するCSSファイルの指定 -->
+            <link rel="stylesheet" type="text/css" href="default.css">
+            <script type="text/javascript" src="botan.js"></script>
+        </head> 
+
+        <body>
+            <h1>ポケモン管理</h1> <!--題-->
+            <h2>登録メニュー</h2>
+            <p>ポケモンの情報を入力ください|<a href="entry.erb">ポケモンの登録</a>|<a href="serch.erb">ポケモンの検索</a>|<a href="entrance.html">メニューに戻る</a>|</p><!--文-->
+            <hr><!-- 横棒 -->
+            <!-- entryというのアドレスではないアドレスならentry.erbになるよってここではactionの名前という役割 -->
+            <form method="post" action="entry">
+
+            <!-- inputのtypeは入力型のことでnameは入力されたものについている変数名これを後で使う -->
+                <table>
+                    <tr><th>項目</th><th>入力フォーム</th></tr>        
+
+                    <% sth.each do |row| %>
+                    <tr><td>特性</td>
+                        <td>
+                            <select name="tokusei" required>
+                            <option value=<%="#{row[4]}"%>><%= "#{row[4]}" %></option>
+                            <option value=<%="#{row[5]}"%>><%= "#{row[5]}" %></option>
+                            <option value=<%="#{row[6]}"%>><%= "#{row[6]}" %></option>
+                            </select>
+                        </td>
+                        <%end%>
+                    </tr>
+
+
+                    <tr>
+                        <td>HPの個体値</td><td><input type="number" name="k_hp" id="k_hp" min="0" max="31" required></td>
+                        <td><input type="button" class="button" value="31" onclick="setvalue('k_hp', 31)"><input type="button" class="button" value="0" onclick="setvalue('k_hp', 0)"></td>
+                    </tr>
+                    
+                    <tr><td>攻撃の個体値</td><td><input type="number" name="k_atk" id="k_atk" min="0" max="31" required></td>
+                    <td><input type="button" class="button" value="31" onclick="setvalue('k_atk', 31)"><input type="button" class="button" value="0" onclick="setvalue('k_atk', 0)"></td>
+                    </tr>
+                    <tr>
+                    <td>防御の個体値</td><td><input type="number" name="k_def" id="k_def" min="0" max="31" required></td>
+                    <td><input type="button" class="button" value="31" onclick="setvalue('k_def', 31)"><input type="button" class="button" value="0" onclick="setvalue('k_def', 0)"></td>
+                    </tr>
+                    <tr>
+                    <td>特攻の個体値</td><td><input type="number" name="k_catk" id="k_catk" min="0" max="31" required></td>
+                    <td><input type="button" class="button" value="31" onclick="setvalue('k_catk', 31)"><input type="button" class="button" value="0" onclick="setvalue('k_catk', 0)"></td>
+                    </tr>
+                    <tr>
+                    <td>特防の個体値</td><td><input type="number" name="k_cdef" id="k_cdef" min="0" max="31" required></td>
+                    <td><input type="button" class="button" value="31" onclick="setvalue('k_cdef', 31)"><input type="button" class="button" value="0" onclick="setvalue('k_cdef', 0)"></td>
+                    </tr>
+                    <tr>
+                    <td>素早さの個体値</td><td><input type="number" name="k_sp" id="k_sp" min="0" max="31" required></td>
+                    <td><input type="button" class="button" value="31" onclick="setvalue('k_sp', 31)"><input type="button" class="button" value="0" onclick="setvalue('k_sp', 0)"></td>
+                    </tr>
+                    <tr>
+                    <td>HPの努力値</td><td><input type="number" name="d_hp" id="d_hp" min="0" max="252" step="4" required></td>
+                    <td><input type="button" class="button" value="252" onclick="setvalue('d_hp', 252)"><input type="button" class="button" value="0" onclick="setvalue('d_hp', 0)"></td>
+                    </tr>
+                    <tr>
+                    <td>攻撃の努力値</td><td><input type="number" name="d_atk" id="d_atk" min="0" max="252" step="4" required></td>
+                    <td><input type="button" class="button" value="252" onclick="setvalue('d_atk', 252)"><input type="button" class="button" value="0" onclick="setvalue('d_atk', 0)"></td>
+                    </tr>
+                    <tr><td>防御の努力値</td><td><input type="number" name="d_def" id="d_def" min="0" max="252" step="4" required></td>
+                    <td><input type="button" class="button" value="252" onclick="setvalue('d_def', 252)"><input type="button" class="button" value="0" onclick="setvalue('d_def', 0)"></td></tr>
+                    <tr><td>特攻の努力値</td><td><input type="number" name="d_catk" id="d_catk" min="0" max="252" step="4" required></td>
+                    <td><input type="button" class="button" value="252" onclick="setvalue('d_catk', 252)"><input type="button" class="button" value="0" onclick="setvalue('d_catk', 0)"></td></tr>
+                    <tr><td>特防の努力値</td><td><input type="number" name="d_cdef" id="d_cdef" min="0" max="252" step="4" required></td>
+                    <td><input type="button" class="button" value="252" onclick="setvalue('d_cdef', 252)"><input type="button" class="button" value="0" onclick="setvalue('d_cdef', 0)"></td></tr>
+                    <tr><td>素早さの努力値</td><td><input type="number" name="d_sp" id="d_sp" min="0" max="252" step="4" required></td>
+                    <td><input type="button" class="button" value="252" onclick="setvalue('d_sp', 252)"><input type="button" class="button" value="0" onclick="setvalue('d_sp', 0)"></td></tr>
+                    <tr><td>ワザ１</td>
+                        <td>
+                            <select name="waza_id_1">
+                            <% wz.each do |wow_1| %>
+
+                            <option value=<%="#{wow_1[0]}"%>><%= "#{wow_1[2]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>ワザ２</td>
+                        <td>
+                            <select name="waza_id_2">
+                            <% wz_2.each do |wow_2| %>
+
+                            <option value=<%="#{wow_2[0]}"%>><%= "#{wow_2[2]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>ワザ３</td>
+                        <td>
+                            <select name="waza_id_3">
+                            <% wz_3.each do |wow_3| %>
+
+                            <option value=<%="#{wow_3[0]}"%>><%= "#{wow_3[2]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>ワザ４</td>
+                        <td>
+                            <select name="waza_id_4">
+                            <% wz_4.each do |wow_4| %>
+
+                            <option value=<%="#{wow_4[0]}"%>><%= "#{wow_4[2]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>アイテム</td>
+                        <td>
+                            <select name="item_id">
+                            <% itm.each do |iow| %>
+
+                            <option value=<%="#{iow[0]}"%>><%= "#{iow[1]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>性格</td>
+                        <td>
+                            <select name="seikaku_id">
+                            <% sik.each do |sow| %>
+
+                            <option value=<%="#{sow[0]}"%>><%= "#{sow[1]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <input type=hidden value=<%="#{b_id}"%> name="id">
+                <input type=hidden value=<%="#{p_id}"%> name="pokemon_id">
+                <p><input type="submit" value="登録"></p>
+            </form>
+            <hr><!-- 横棒 -->
+        </body>
+    </html>
+<% sth.finish%>
+<% wz.finish%>
+<% wz_2.finish%>
+<% wz_3.finish%>
+<% wz_4.finish%>
+<% itm.finish%>
+<% sik.finish%>
+<% dbh.disconnect %>

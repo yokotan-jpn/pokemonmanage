@@ -1,0 +1,41 @@
+#error_meta{
+    /* error_metaというidがついてる要素のCSS */
+    opacity:0.5;
+}
+
+body{
+    background-color: white;
+
+}
+
+
+h1,h2,h3{
+border-width: 0 0 0 8px;
+border-style: solid;
+padding-left: 0.3em;
+padding-right: 0.5em;
+}
+
+table{
+    border-width: 1px 2px 2px 1px;
+    border-style: solid;
+    border-color: slategray;
+    background-color: white
+    ;
+    padding: 0;
+}
+
+th,td{
+    border-width: 1px 0px 0px 1px;
+    border-style: solid;
+    border-color: gray;
+    padding: 4px;
+    background-color: #ffffef;
+}
+
+th{
+    text-align: center;
+    font-weight: bold;
+    background-color: #a0b8c8;
+}
+

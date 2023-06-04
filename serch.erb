@@ -1,0 +1,145 @@
+<%#coding:utf-8 %>
+<% require 'rubygems' %>
+<% require 'dbi' %>
+<% dbh = DBI.connect('DBI:SQLite3:box_pokemon.db') %> 
+<% sth = dbh.execute("select * from pokemon_S") %>
+<% wz  = dbh.execute("select * from waza") %>
+<% wz_2  = dbh.execute("select * from waza") %>
+<% wz_3  = dbh.execute("select * from waza") %>
+<% wz_4  = dbh.execute("select * from waza") %>
+<% itm = dbh.execute("select * from item") %>
+<% sik = dbh.execute("select * from seikaku") %>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-type" content="text/html" charset="utf-8"/>
+        <title>entry</title>
+        <!-- 対応するCSSファイルの指定 -->
+        <link rel="stylesheet" type="text/css" href="default.css">
+    </head> 
+
+    <body>
+        <h1>ポケモン管理</h1> <!--題-->
+        <h2>検索メニュー</h2>
+        <p>検索するポケモンの情報を入力ください|<a href="entry.erb">ポケモンの登録</a>|<a href="serch.erb">ポケモンの検索</a>|<a href="entrance.html">メニューに戻る</a>|</p><!--文-->
+        <hr><!-- 横棒 -->
+        <!-- entryというのアドレスではないアドレスならentry.erbになるよってここではactionの名前という役割 -->
+        <form method="post" action="serch">
+        <!-- inputのtypeがhiddenなのでinputform全体の設定を担っている -->
+            <input type = "hidden" name="mcode" value="utf-8">
+        <!-- inputのtypeは入力型のことでnameは入力されたものについている変数名これを後で使う -->
+            <table>
+                <tr><th>項目</th><th>入力フォーム</th></tr>        
+                <tr><td>ID</td><td><input type="number" name="id" min="0"></td></tr>
+                <tr><td>名前</td><td><input type="text" name="name"></td></tr>
+                <!--<input type="hidden" name="name" value="">--> <!-- 文字化けするので空白を強制代入 -->
+                <tr><td>ポケモン名</td>
+                        <td>
+                            <select name="pokemon_id">
+                            <option value="" selected="selected">無条件</option>
+                            <% sth.each do |row| %>
+
+                            <option value=<%="#{row[0]}"%>><%= "#{row[3]}" %></option>
+                            
+                            <% end %>
+                            </select>
+                        </td>
+                </tr>
+                <tr><td>HPの個体値</td><td><input type="number" name="k_hp" min="0" max="31"></td></tr>
+                <tr><td>攻撃の個体値</td><td><input type="number" name="k_atk" min="0" max="31"></td></tr>
+                <tr><td>防御の個体値</td><td><input type="number" name="k_def" min="0" max="31"></td></tr>
+                <tr><td>特攻の個体値</td><td><input type="number" name="k_catk" min="0" max="31"></td></tr>
+                <tr><td>特防の個体値</td><td><input type="number" name="k_cdef" min="0" max="31"></td></tr>
+                <tr><td>素早さの個体値</td><td><input type="number" name="k_sp" min="0" max="31"></td></tr>
+                <tr><td>HPの努力値</td><td><input type="number" name="d_hp" min="0" max="252"></td></tr>
+                <tr><td>攻撃の努力値</td><td><input type="number" name="d_atk" min="0" max="252"></td></tr>
+                <tr><td>防御の努力値</td><td><input type="number" name="d_def" min="0" max="252"></td></tr>
+                <tr><td>特攻の努力値</td><td><input type="number" name="d_catk" min="0" max="252"></td></tr>
+                <tr><td>特防の努力値</td><td><input type="number" name="d_cdef" min="0" max="252"></td></tr>
+                <tr><td>素早さの努力値</td><td><input type="number" name="d_sp" min="0" max="252"></td></tr>
+                <tr><td>ワザ１</td>
+                    <td>
+                        <select name="waza_id_1">
+                        <option value="" selected="selected">無条件</option>
+                        <% wz.each do |wow_1| %>
+
+                        <option value=<%="#{wow_1[0]}"%>><%= "#{wow_1[2]}" %></option>
+                         
+                        <% end %>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td>ワザ２</td>
+                    <td>
+                        <select name="waza_id_2">
+                        <option value="" selected="selected">無条件</option>
+                        <% wz_2.each do |wow_2| %>
+
+                        <option value=<%="#{wow_2[0]}"%>><%= "#{wow_2[2]}" %></option>
+                        
+                        <% end %>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td>ワザ３</td>
+                    <td>
+                        <select name="waza_id_3">
+                        <option value="" selected="selected">無条件</option>
+                        <% wz_3.each do |wow_3| %>
+
+                        <option value=<%="#{wow_3[0]}"%>><%= "#{wow_3[2]}" %></option>
+                        
+                        <% end %>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td>ワザ４</td>
+                    <td>
+                        <select name="waza_id_4">
+                        <option value="" selected="selected">無条件</option>
+                        <% wz_4.each do |wow_4| %>
+
+                        <option value=<%="#{wow_4[0]}"%>><%= "#{wow_4[2]}" %></option>
+                        
+                        <% end %>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td>アイテム</td>
+                    <td>
+                        <select name="item_id">
+                        <option value="" selected="selected">無条件</option>
+                        <% itm.each do |iow| %>
+
+                        <option value=<%="#{iow[0]}"%>><%= "#{iow[1]}" %></option>
+                        
+                        <% end %>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td>性格</td>
+                    <td>
+                        <select name="seikaku_id">
+                        <option value="" selected="selected">無条件</option>
+                        <% sik.each do |sow| %>
+
+                        <option value=<%="#{sow[0]}"%>><%= "#{sow[1]}" %></option>
+                        
+                        <% end %>
+                        </select>
+                    </td>
+                </tr>
+                   
+            </table>
+            <p><input type="submit" value="検索"></p>
+        </form>
+        <hr><!-- 横棒 -->
+    </body>
+</html>
+<% wz.finish%>
+<% wz_2.finish%>
+<% wz_3.finish%>
+<% wz_4.finish%>
+<% itm.finish%>
+<% sik.finish%>
+<% sth.finish%>
+<% dbh.disconnect %>

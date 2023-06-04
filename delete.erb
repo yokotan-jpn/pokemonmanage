@@ -1,0 +1,171 @@
+
+
+<% #coding:utf-8 %>
+<% require 'rubygems' %>
+<% require 'dbi' %>
+
+<% dbh = DBI.connect('DBI:SQLite3:box_pokemon.db') %> 
+
+    <% sth = dbh.execute("select * from pokemon where id='#{target_id}'") %>
+
+        <html lang='en'>
+            <head>
+                <meta http-equiv="Content-type" content="text/html" charset='utf-8'/>
+                <link rel="stylesheet" type="text/css" href="default.css">
+                <title>list</title>
+            </head>
+            <body>
+                <h1>ポケモン管理</<h1> <!--題-->
+                <h2>データの削除</h2>
+                <p>このポケモンを削除します|<a href="entry.erb">ポケモンの登録</a>|<a href="serch.erb">ポケモンの検索</a>|<a href="entrance.html">メニューに戻る</a>|</p>
+                <hr>
+                
+                <% sth.each do |row| %>
+                        <!--ポケモンidによってそのポケモンのデータをpkmに代入-->
+                        <%pkm = dbh.execute("select * from pokemon_s where id='#{row[14]}'")%>
+                        <%wz_1 = dbh.execute("select * from waza where id='#{row[15]}'")%>
+                        <%wz_2 = dbh.execute("select * from waza where id='#{row[16]}'")%>
+                        <%wz_3 = dbh.execute("select * from waza where id='#{row[17]}'")%>
+                        <%wz_4 = dbh.execute("select * from waza where id='#{row[18]}'")%>
+                        <%itm = dbh.execute("select * from item where id='#{row[19]}'")%>
+                        <%sik = dbh.execute("select * from seikaku where id='#{row[20]}'")%>
+                        <!--pkmのデータは一件ではあるがそれをpowに書き出す-->
+                        <% pkm.each do |pow| %>
+                        <% sik.each do |sow| %>
+                        <% itm.each do |iow| %>
+                        <% wz_1.each do |wow_1| %>
+                        <% wz_2.each do |wow_2| %>
+                        <% wz_3.each do |wow_3| %>
+                        <% wz_4.each do |wow_4| %>
+
+                            <%typ = dbh.execute("select * from type where id='#{pow[1]}'")%>
+                            <%typ_2 = dbh.execute("select * from type where id='#{pow[2]}'")%>
+                            <%w_1_typ = dbh.execute("select * from type where id='#{wow_1[1]}'")%>
+                            <%w_2_typ = dbh.execute("select * from type where id='#{wow_2[1]}'")%>
+                            <%w_3_typ = dbh.execute("select * from type where id='#{wow_3[1]}'")%>
+                            <%w_4_typ = dbh.execute("select * from type where id='#{wow_4[1]}'")%>
+                            <% typ.each do |tow| %>
+                            <% typ_2.each do |tow_2| %>
+                            <% w_1_typ.each do |w1tow| %>
+                            <% w_2_typ.each do |w2tow| %>
+                            <% w_3_typ.each do |w3tow| %>
+                            <% w_4_typ.each do |w4tow| %>
+                                    <table>
+                                    <tr><th>ID</th><th>ニックネーム</th><th>ポケモン名</th><th>性格</th><th>タイプ１</th><th>タイプ２</th></tr>
+                                    <tr><td><%="#{row[0]}" %></td><td><%= "#{row[1]}" %></td><td><%= "#{pow[3]}" %></td><td><%="#{sow[1]}" %></td><td><img src=<%= "#{tow[1]}"%>></td><td><img src=<%= "#{tow_2[1]}"%>></td></tr>
+                                    </table>
+                                    <table>
+                                        <%if sow[2]=="11"%>
+
+                                            <%if sow[3]==9%>
+                                                <tr><th>項目</th><th>HP</th><th><font color="red">攻撃</font></th><th><font color="blue">防御</font></th><th>特攻</th><th>特防</th><th>素早さ</th></tr>
+                                            <%elsif sow[4]==9%>
+                                                <tr><th>項目</th><th>HP</th><th><font color="red">攻撃</font></th><th>防御</th><th><font color="blue">特攻</font></th><th>特防</th><th>素早さ</th></tr>
+                                            <%elsif sow[5]==9%>
+                                                <tr><th>項目</th><th>HP</th><th><font color="red">攻撃</font></th><th>防御</th><th>特攻</th><th><font color="blue">特防</font></th><th>素早さ</th></tr>
+                                            <%elsif sow[6]==9%>
+                                                <tr><th>項目</th><th>HP</th><th><font color="red">攻撃</font></th><th>防御</th><th>特攻</th><th>特防</th><th><font color="blue">素早さ</font></th></tr>
+                                            <%end%>
+                                                
+                                        <%elsif sow[3]==11%>
+                                            <%if sow[2]==9%>
+                                                <tr><th>項目</th><th>HP</th><th><font color="blue">攻撃<font></th><th><font color="red">防御</font></th><th>特攻</th><th>特防</th><th>素早さ</th></tr>
+                                            <%elsif sow[4]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th><font color="red">防御</font></th><th><font color="blue">特攻</font></th><th>特防</th><th>素早さ</th></tr>
+                                            <%elsif sow[5]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th><font color="red">防御</font></th><th>特攻</th><th><font color="blue">特防</font></th><th>素早さ</th></tr>
+                                            <%elsif sow[6]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th><font color="red">防御</font></th><th>特攻</th><th>特防</th><th><font color="blue">素早さ</font></th></tr>
+                                            <%end%>
+                                            
+                                        <%elsif sow[4]==11%>
+                                            <%if sow[2]==9%>
+                                                <tr><th>項目</th><th>HP</th><th><font color="blue">攻撃<font></th><th>防御</th><th><font color="red">特攻</font></th><th>特防</th><th>素早さ</th></tr>
+                                            <%elsif sow[3]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th><font color="blue">防御</font></th><th><font color="red">特攻</font></th><th>特防</th><th>素早さ</th></tr>
+                                            <%elsif sow[5]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th>防御</th><th><font color="red">特攻</font></th><th><font color="blue">特防</font></th><th>素早さ</th></tr>
+                                            <%elsif sow[6]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th>防御</th><th><font color="red">特攻</font></th><th>特防</th><th><font color="blue">素早さ</font></th></tr>
+                                            <%end%>
+                                            
+                                        <%elsif sow[5]==11%>
+                                            <%if sow[2]==9%>
+                                                <tr><th>項目</th><th>HP</th><th><font color="blue">攻撃<font></th><th>防御</th><th>特攻</th><th><font color="red">特防</font></th><th>素早さ</th></tr>
+                                            <%elsif sow[3]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th><font color="blue">防御</font></th><th>特攻</th><th><font color="red">特防</font></th><th>素早さ</th></tr>
+                                            <%elsif sow[4]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th>防御</th><th><font color="blue">特攻</font></th><th><font color="red">特防</font></th><th>素早さ</th></tr>
+                                            <%elsif sow[6]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th>防御</th><th>特攻</th><th><font color="red">特防</font></th><th><font color="blue">素早さ</font></th></tr>
+                                            <%end%>
+                                            
+                                        <%elsif sow[6]==11%>
+                                            <%if sow[2]==9%>
+                                                <tr><th>項目 おく</th><th>HP</th><th><font color="blue">攻撃</font></th><th>防御</th><th>特攻</th><th>特防</th><th><font color="red">素早さ</font></th></tr>
+
+                                            <%elsif sow[3]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th><font color="blue">防御</font></th><th>特攻</th><th>特防</th><th><font color="red">素早さ</font></th></tr>
+                                            <%elsif sow[4]==9%>
+                                                <tr><th>項目 you</th><th>HP</th><th>攻撃</th><th>防御</th><th><font color="blue">特攻</font></th><th>特防</th><th><font color="red">素早さ</font></th></tr>
+                                            <%elsif sow[5]==9%>
+                                                <tr><th>項目</th><th>HP</th><th>攻撃</th><th>防御</th><th>特攻</th><th><font color="blue">特防</font></th><th><font color="red">素早さ</font></th></tr>
+                                            <%end%>
+                                            
+                                        <%else%>
+                                            <tr><th>項目</th><th>HP</th><th>攻撃</th><th>防御</th><th>特攻</th><th>特防</th><th>素早さ</th></tr>
+                                        <%end%>
+                                        <tr><th>個体値</th><td><%= "#{row[2]}" %></td><td><%= "#{row[3]}" %></td><td><%= "#{row[4]}" %></td><td><%= "#{row[5]}" %></td><td><%= "#{row[6]}" %></td><td><%= "#{row[7]}" %></td></tr>
+                                        <tr><th>努力値</th><td><%= "#{row[8]}" %></td><td><%= "#{row[9]}" %></td><td><%= "#{row[10]}" %></td><td><%= "#{row[11]}" %></td><td><%= "#{row[12]}" %></td><td><%= "#{row[13]}" %></td></tr>
+                                        <tr><th>実数値</th><td><%= "#{pow[7]+row[2]/2+row[8]/8+60}"%></td><td><%= "#{(pow[8]+row[3]/2+row[9]/8+5)*sow[2]/10}"%></td><td><%= "#{(pow[9]+row[4]/2+row[10]/8+5)*sow[3]/10}"%></td><td><%= "#{(pow[10]+row[5]/2+row[11]/8+5)*sow[4]/10}"%></td><td><%= "#{(pow[11]+row[6]/2+row[12]/8+5)*sow[5]/10}"%></td><td><%= "#{(pow[12]+row[7]/2+row[13]/8+5)*sow[6]/10}"%></td></tr>
+                                    </table>
+                                    <img src=<%= "#{pow[13]}"%> width="200" height="200">
+                                    <p><img src=<%= "#{iow[2]}"%> width="40" height="40"><%= "#{iow[1]}"%>===特性：<%="#{row[21]}"%></p>
+
+                                    <table>
+                                    <tr><th>技名</th><th>タイプ</th></tr>
+                                    <tr><td><%= "#{wow_1[2]}"%></td><td><img src=<%= "#{w1tow[1]}"%>></td></tr>
+                                    <tr><td><%= "#{wow_2[2]}"%></td><td><img src=<%= "#{w2tow[1]}"%>></td></tr>
+                                    <tr><td><%= "#{wow_3[2]}"%></td><td><img src=<%= "#{w3tow[1]}"%>></td></tr>
+                                    <tr><td><%= "#{wow_4[2]}"%></td><td><img src=<%= "#{w4tow[1]}"%>></td></tr>
+                                    </table>
+                                    <hr>
+                            <% end%>
+                            <% end%>
+                            <% end%>
+                            <% end%>
+                            <% end%>
+                            <% end%>
+                            <% typ_2.finish %>
+                            <% typ.finish %>
+                            <% w_1_typ.finish %>
+                            <% w_2_typ.finish %>
+                            <% w_3_typ.finish %>
+                            <% w_4_typ.finish %>
+
+                        <% end %>
+                        <% end %> 
+                        <% end %> 
+                        <% end %>
+                        <% end %> 
+                        <% end %>
+                        <% end %>
+                        <% wz_1.finish %>
+                        <% wz_2.finish %>
+                        <% wz_3.finish %>
+                        <% wz_4.finish %>
+                        <% itm.finish %>
+                        <% pkm.finish %>
+                        <% sik.finish %>  
+                    <% end %>
+                <form method="post" action="delete"> 
+                <input type="hidden" name="id"  value=<%= "#{target_id}" %>>
+                <p><input type="submit" value="削除を実行する"></p>
+                </form>
+                <hr>
+            </body>
+        </html>
+
+    <% sth.finish %>
+
+<% dbh.disconnect %>
